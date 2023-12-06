@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timer</title>
+    <style>
+        input {
+            width: 50px;
+        }
+    </style>
+</head>
+<body>
+
+    <label for="hours">Hours:</label>
+    <input type="number" id="hours" min="0" value="0">
+
+    <label for="minutes">Minutes:</label>
+    <input type="number" id="minutes" min="0" value="0">
+
+    <label for="seconds">Seconds:</label>
+    <input type="number" id="seconds" min="0" value="0">
+
+    <br>
+
+    <button onclick="startTimer()">Start</button>
+    <button onclick="pauseTimer()">Pause</button>
+    <button onclick="resetTimer()">Reset</button>
+
+    <p id="timer"></p>
+
+    <script>
+        let timer;
+        let totalSeconds;
+
+        function startTimer() {
+            const hours = parseInt(document.getElementById('hours').value) || 0;
+            const minutes = parseInt(document.getElementById('minutes').value) || 0;
+            const seconds = parseInt(document.getElementById('seconds').value) || 0;
+
+            totalSeconds = hours * 3600 + minutes * 60 + seconds;
+
+            timer = setInterval(updateTimer, 1000);
+        }
+
+        function updateTimer() {
+            const hours = Math.floor(totalSeconds / 3600);
+            const minutes = Math.floor((totalSeconds % 3600) / 60);
+            const seconds = totalSeconds % 60;
+
+            document.getElementById('timer').innerText = `${hours}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+
+            if (totalSeconds === 0) {
+                clearInterval(timer);
+            } else {
+                totalSeconds--;
+            }
+        }
+
+        function pauseTimer() {
+            clearInterval(timer);
+        }
+
+        function resetTimer() {
+            clearInterval(timer);
+            document.getElementById('timer').innerText = '';
+            document.getElementById('hours').value = 0;
+            document.getElementById('minutes').value = 0;
+            document.getElementById('seconds').value = 0;
+        }
+    </script>
+
+</body>
+</html>
